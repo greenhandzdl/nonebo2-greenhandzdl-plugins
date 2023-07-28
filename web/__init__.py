@@ -43,16 +43,17 @@ async def handle_web(bot: Bot, event: Event, state: T_State):
         os.mkdir(cookie_dir)
     # 提取网站链接的域名部分，去掉协议头和斜杠
     domain = url.split("//")[-1].split("/")[0]
+    # 将 . 替换为 _
+    domain = domain.replace(".", "_")
     # 拼接图片文件的路径和名字，使用 png 格式
     image_path = os.path.join(cookie_dir, domain + ".png")
     # 将 html 内容转换为 png 图片，并保存到图片文件中
     imgkit.from_string(html, image_path)
 
     # 使用 MessageFactory 类构建消息，使用图片文件作为图片源，并转换为 nonebot2 的 MessageSegment 类
-    msg = MessageFactory(Image(image_path)).to_onebot()
-
+    msg = MessageFactory(Image(image_path))
     # 使用 bot 对象发送消息给用户，回复原消息并 @ 用户
-    await web_cmd.send(msg, reply=True, at_sender=True)
+    await msg.send(reply=True, at_sender=True)
 
     # 结束命令处理
     await web_cmd.finish()
