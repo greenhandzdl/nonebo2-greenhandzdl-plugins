@@ -30,10 +30,11 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
         return
     # 调用markdown模块的markdown函数，将markdown文本转换为html文本
     html_text = markdown.markdown(md_text)
-    # 获取发送者的id和当前时间，并拼接成一个文件名
-    sender_id = event.sender.user_id # new
+    # 获取发送者的用户信息和当前时间，并拼接成一个文件名
+    user = event.sender # 直接获取用户信息
+    user_id = event.user_id # 获取用户id
     current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S") # new
-    file_name = f"{event.sender.nickname}({sender_id})_{current_time}.png" # new
+    file_name = f"{user.nickname}({user_id})_{current_time}.png" # new
     # 检查并创建 ./cookie 文件夹
     if not os.path.exists("./cookie"):
         os.makedirs("./cookie")
