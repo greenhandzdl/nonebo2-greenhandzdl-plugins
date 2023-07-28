@@ -45,13 +45,10 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     # 读取文件路径中的字节数据
     with open(file_path, "rb") as f:
         image_data = f.read()
-    # 使用Image类的from_bytes方法创建图片消息段
-    image_msg = Image.from_bytes(image_data)
     # 使用MessageFactory类构建消息
-    msg = MessageFactory([Image(file_path),Text("这是渲染的图片")]) 
+    msg = MessageFactory([Image(image_data),Text("这是渲染的图片")]) 
     # 使用bot对象发送消息给用户，回复原消息并@用户
     await msg.send(reply=True, at_sender=True)
-
 
     # 结束命令处理
     await md_generate_cmd.finish()
