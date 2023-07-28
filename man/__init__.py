@@ -44,9 +44,7 @@ async def handle_man(bot: Bot, event: Event, state: T_State):
     # 调用 markdown 模块的 markdown 函数，将 markdown 文本转换为 html 文本
     html_text = markdown.markdown(md_text)
 
-    # 获取发送者的 id 和当前时间，并拼接成一个文件名
-    sender_id = event.sender.user_id
-    current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    # 拼接成一个文件名
     file_name = f"{param}_manual.png"
 
     # 检查并创建 ./cookie 文件夹，如果不存在的话
@@ -58,13 +56,11 @@ async def handle_man(bot: Bot, event: Event, state: T_State):
     file_path = os.path.join(cookie_dir, file_name)
     file_path = os.path.abspath(file_path)
 
-    await bot.send(event,file_path)
-
     # 调用 imgkit 模块的 from_string 函数，将 html 文本转换为 png 图片，并保存到文件路径中
     imgkit.from_string(html_text, file_path)
 
     # 使用 MessageFactory 类构建消息，使用文件路径作为图片源，并添加一些文本说明
-    msg = MessageFactory([Text("这是我根据你输入的参数生成的说明：\n"), Image(file_path)])
+    msg = MessageFactory([Text("这是我根据你输入的参数生成的说明：\n"), Image(f"file://{file_path}")])
 
     # 使用 bot 对象发送消息给用户，回复原消息并 @ 用户
     await msg.send(reply=True, at_sender=True)
