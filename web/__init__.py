@@ -3,11 +3,12 @@ from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
 from nonebot.rule import to_me
 
-# 导入 requests, imgkit, nonebot_plugin_saa, tempfile 等模块
+# 导入 requests, imgkit, nonebot_plugin_saa, tempfile, os 等模块
 import requests
 import imgkit
 from nonebot_plugin_saa import MessageFactory, Image
 import tempfile
+import os
 
 # 定义一个命令处理器，响应用户输入的 "web" 指令，并且需要 @ 机器人
 web_cmd = on_command("web", rule=to_me(), priority=5)
@@ -30,18 +31,28 @@ async def handle_web(bot: Bot, event: Event, state: T_State):
         response = requests.get(url, timeout=10)
         html = response.text
     except requests.exceptions.ConnectTimeout:
-    # 如果连接超时，发送提示信息给用户，并结束命令处理
+        # 如果连接超时，发送提示信息给用户，并结束命令处理
         await bot.send(event, "连接网页超时，请重试或换一个网址")
         await web_cmd.finish()
         return
 
-    # 使用 imgkit 模块的 from_string 函数，将 html 内容转换为 png 图片，并保存到临时文件中
-    with tempfile.NamedTemporaryFile(suffix=".png") as tmp_file:
-        imgkit.from_string(html, tmp_file.name)
-    # 使用 MessageFactory 类构建消息，使用临时文件作为图片源
-    msg = MessageFactory(Image(tmp_file.name))
+    # 使用 imgkit 模块的 from_string 函数，将 html 内容转换为 png 图片，并保存到 ./cookie 文件夹中，使用网站链接的域名作为图片文件的名字
+    # 创建 ./cookie 文件夹，如果不存在的话
+    cookie_dir = "./cookie"
+    if not os.path.exists(cookie_dir):
+        os.mkdir(cookie_dir)
+    # 提取网站链接的域名部分，去掉协议头和斜杠
+    domain = url.split("//")[-1].split("/")[0]
+    # 拼接图片文件的路径和名字，使用 png 格式
+    image_path = os.path.join(cookie_dir, domain + ".png")
+    # 将 html 内容转换为 png 图片，并保存到图片文件中
+    imgkit.from_string(html, image_path)
+
+    # 使用 MessageFactory 类构建消息，使用图片文件作为图片源，并转换为 nonebot2 的 MessageSegment 类
+    msg = MessageFactory(Image(image_path)).to_onebot()
+
     # 使用 bot 对象发送消息给用户，回复原消息并 @ 用户
-    await msg.send(reply=True, at_sender=True)
+    await web_cmd.send(msg, reply=True, at_sender=True)
 
     # 结束命令处理
     await web_cmd.finish()
