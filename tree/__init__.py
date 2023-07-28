@@ -26,14 +26,8 @@ async def handle_tree(bot: Bot, event: Event, state: T_State):
     old_stdout = sys.stdout
     # 将标准输出设置为StringIO对象
     sys.stdout = result
-
-    # 定义一个函数，用于过滤掉不想显示的文件名
-    def filter_func(filename):
-        # 如果文件名是 .gitignore, LICENSE, .gitattributes 中的一个，返回 False，否则返回 True
-        return filename not in (".gitignore", "LICENSE", ".gitattributes")
-
-    # 调用sd.seedir()函数，打印文件树，并传入filter_func参数，使用自定义的过滤函数
-    sd.seedir(plugin_dir, style="lines", depthlimit=1, exclude_folders=".git", filter_func=filter_func)
+    # 调用sd.seedir()函数，打印文件树
+    sd.seedir(plugin_dir, style="emoji", depthlimit=1, exclude_folders=".git",exclude_files=['.gitattributes','.gitignore','LICENSE'])
     # 恢复原来的标准输出
     sys.stdout = old_stdout
     # 获取StringIO对象中的字符串
@@ -42,7 +36,7 @@ async def handle_tree(bot: Bot, event: Event, state: T_State):
     result.close()
 
     # 使用MessageFactory和Text类构建消息
-    msg = MessageFactory(Text("这是机器人所搭载的全部插件哦～，你可以通过man对应的文件获得使用说明"),Text(result_string))
+    msg = MessageFactory(Text("这是机器人所搭载的全部插件哦～，你可以通过man对应的文件获得使用说明\n")+Text(result_string))
     # 使用send方法发送消息给用户
     await msg.send(reply=True, at_sender=True)
     # 结束命令处理
