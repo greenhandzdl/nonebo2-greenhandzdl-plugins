@@ -27,7 +27,7 @@ async def handle_tree(bot: Bot, event: Event, state: T_State):
     # 将标准输出设置为StringIO对象
     sys.stdout = result
     # 调用sd.seedir()函数，打印文件树
-    sd.seedir(plugin_dir, style="emoji", depthlimit=1, exclude_folders=".git",exclude_files=['.gitattributes','.gitignore','LICENSE'])
+    sd.seedir(plugin_dir, style="emoji", depthlimit=1, exclude_folders=".git",exclude_files=['.gitattributes','.gitignore','LICENSE','README.md'])
     # 恢复原来的标准输出
     sys.stdout = old_stdout
     # 获取StringIO对象中的字符串
