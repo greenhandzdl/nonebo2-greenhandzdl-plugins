@@ -13,6 +13,7 @@ import datetime
 
 # 导入nonebot-plugin-send-anything-anywhere相关模块
 from nonebot_plugin_saa import MessageFactory, Text ,Image
+from nonebot_plugin_saa.utils.types import MessageFactory
 
 
 # 定义一个命令处理器，响应用户输入的"md_generate"指令，并且需要@机器人
@@ -43,9 +44,9 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     # 调用imgkit模块的from_string函数，将html文本转换为png图片，并保存到文件路径中
     imgkit.from_string(html_text, file_path)
     # 使用MessageFactory类构建消息，使用文件路径作为图片源
-    msg = MessageFactory([Image(file_path),Text("这是渲染的图片")]) 
+    msg = MessageFactory.reply(event.message_id) + MessageFactory.mention(event.user_id) + ([Image(file_path),Text("这是渲染的图片")]) 
     # 使用bot对象发送消息给用户，回复原消息并@用户
-    await msg.send(reply=True, at_sender=True)
+    await msg.send()
 
     # 结束命令处理
     await md_generate_cmd.finish()
