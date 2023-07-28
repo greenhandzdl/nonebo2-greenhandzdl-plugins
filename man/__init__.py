@@ -23,11 +23,14 @@ async def handle_man(bot: Bot, event: Event, state: T_State):
 
     # 如果没有输入参数，使用默认的 README.md 文件
     if not param:
-        md_file = "../src/plugins/README.md"
+        md_file = "./src/plugins/README.md"
 
-    # 否则，拼接成 ../src/plugins/<param>/README.md 文件
+    # 否则，拼接成 ./src/plugins/<param>/README.md 文件
     else:
-        md_file = f"../src/plugins/{param}/README.md"
+        md_file = f"./src/plugins/{param}/README.md"
+
+    # 转换为绝对路径
+    md_file = os.path.abspath(md_file)
 
     # 检查文件是否存在，如果不存在，提示用户
     if not os.path.exists(md_file):
@@ -53,12 +56,15 @@ async def handle_man(bot: Bot, event: Event, state: T_State):
 
     # 拼接一个文件路径，使用 ./cookie 目录和文件名，并转换为绝对路径
     file_path = os.path.join(cookie_dir, file_name)
+    file_path = os.path.abspath(file_path)
+
+    await bot.send(event,file_path)
 
     # 调用 imgkit 模块的 from_string 函数，将 html 文本转换为 png 图片，并保存到文件路径中
     imgkit.from_string(html_text, file_path)
 
     # 使用 MessageFactory 类构建消息，使用文件路径作为图片源，并添加一些文本说明
-    msg = MessageFactory([Text("这是我根据你输入的参数生成的说明："), Image(file_path)])
+    msg = MessageFactory([Text("这是我根据你输入的参数生成的说明：\n"), Image(file_path)])
 
     # 使用 bot 对象发送消息给用户，回复原消息并 @ 用户
     await msg.send(reply=True, at_sender=True)
