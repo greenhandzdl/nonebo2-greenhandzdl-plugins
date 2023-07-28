@@ -3,11 +3,10 @@ from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
 from nonebot.rule import to_me
 
-# 导入 requests, imgkit, nonebot_plugin_saa, tempfile, os 等模块
+# 导入 requests, imgkit, nonebot_plugin_saa, os 等模块
 import requests
 import imgkit
 from nonebot_plugin_saa import MessageFactory, Image
-import tempfile
 import os
 
 # 定义一个命令处理器，响应用户输入的 "web" 指令，并且需要 @ 机器人

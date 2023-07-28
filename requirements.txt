@@ -1,0 +1,6 @@
+nonebot-plugin-send-anything-anywhere>=0.2.7
+requests>=2.31.0
+imgkit>=1.2.3
+markdown>=3.4.4
+json>=1.6.3
+seedir>=0.4.2
