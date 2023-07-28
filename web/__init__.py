@@ -41,7 +41,7 @@ async def handle_web(bot: Bot, event: Event, state: T_State):
     # 使用 MessageFactory 类构建消息，使用临时文件作为图片源
     msg = MessageFactory(Image(tmp_file.name))
     # 使用 bot 对象发送消息给用户，回复原消息并 @ 用户
-    await web_cmd.send(msg, reply=True, at_sender=True)
+    await msg.send(reply=True, at_sender=True)
 
     # 结束命令处理
     await web_cmd.finish()
