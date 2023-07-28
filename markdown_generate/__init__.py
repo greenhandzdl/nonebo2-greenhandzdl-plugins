@@ -37,12 +37,12 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     # 检查并创建 ./cookie 文件夹
     if not os.path.exists("./cookie"):
         os.makedirs("./cookie")
-    # 拼接一个文件路径，使用./cookie目录和文件名
-    file_path = Path("./cookie").joinpath(file_name)
+    # 拼接一个文件路径，使用./cookie目录和文件名，并转换为绝对路径
+    file_path = Path("./cookie").joinpath(file_name).resolve()
     # 调用imgkit模块的from_string函数，将html文本转换为png图片，并保存到文件路径中
-    imgkit.from_string(html_text, file_path.as_posix())
+    imgkit.from_string(html_text, file_path)
     # 使用MessageFactory类构建消息，使用文件路径作为图片源
-    msg = MessageFactory([Image(file_path.as_posix()),Text("这是渲染的图片")]) 
+    msg = MessageFactory([Image(file_path),Text("这是渲染的图片")]) 
     # 使用bot对象发送消息给用户，回复原消息并@用户
     await msg.send(reply=True, at_sender=True)
 
