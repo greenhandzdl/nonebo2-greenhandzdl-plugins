@@ -13,10 +13,10 @@ import datetime
 # 定义一个命令处理器，响应用户输入的 "man" 指令，并且需要 @ 机器人
 man_cmd = on_command("man", rule=to_me(), priority=5)
 
+
 # 定义命令处理函数，并回复给用户
 @man_cmd.handle()
 async def handle_man(bot: Bot, event: Event, state: T_State):
-
     # 获取用户输入的参数
     param = event.get_plaintext().strip()
     param = param.replace("/man", "").strip()
@@ -59,8 +59,13 @@ async def handle_man(bot: Bot, event: Event, state: T_State):
     # 调用 imgkit 模块的 from_string 函数，将 html 文本转换为 png 图片，并保存到文件路径中
     imgkit.from_string(html_text, file_path)
 
-    # 使用 MessageFactory 类构建消息，使用文件路径作为图片源，并添加一些文本说明
-    msg = MessageFactory([Text("这是我根据你输入的参数生成的说明：\n"), Image(f"file://{file_path}")])
+    # 读取文件路径中的字节数据
+    with open(file_path, "rb") as f:
+        image_data = f.read()
+    # 使用Image类的from_bytes方法创建图片消息段
+    # image_msg = Image.from_bytes(image_data)
+    # 使用MessageFactory类构建消息，并添加一些文本说明
+    msg = MessageFactory([Text("这是我根据你输入的参数生成的说明：\n"), Image(image_data)])
 
     # 使用 bot 对象发送消息给用户，回复原消息并 @ 用户
     await msg.send(reply=True, at_sender=True)
