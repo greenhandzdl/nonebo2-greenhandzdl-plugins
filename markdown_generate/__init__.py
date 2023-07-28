@@ -29,7 +29,7 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     # 获取发送者的id和当前时间，并拼接成一个文件名
     sender_id = event.sender.user_id # new
     current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S") # new
-    file_name = f"{nonebot_plugin_saa.sender_nickname}_{sender_id}_{current_time}.png" # new
+    file_name = f"{event.sender.nickname}_{sender_id}_{current_time}.png" # new
     # 检查并创建 ./cookie 文件夹
     if not os.path.exists("./cookie"):
         os.makedirs("./cookie")
