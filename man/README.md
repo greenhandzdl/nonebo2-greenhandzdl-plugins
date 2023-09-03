@@ -8,6 +8,7 @@
 ## 面向机器人开发者：
 * 开发进度：基本上可用，还待分离config适配更多平台
 * 依赖：
+wkhtmltoimage
 ```commandline
 nonebot_plugin_saa
 markdown
