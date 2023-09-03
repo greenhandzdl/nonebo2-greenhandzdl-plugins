@@ -11,4 +11,5 @@
 ```
 nonebot-plugin-saa
 seedir
+emoji
 ```
