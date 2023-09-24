@@ -8,26 +8,26 @@ from nonebot_plugin_saa import Config, on_startup
 
 random_cmd = on_command("random", rule=to_me(), priority=5)
 
-# 获取插件配置
-global_config = Config()
-
 @random_cmd.handle()
 async def handle_random(bot: Bot, event: Event, state: T_State):
     param = event.get_plaintext().strip()
     param = param.replace("/random", "").strip()
 
-    # 检查参数是否为空
+    # 判断是否有参数
     if not param:
-        await bot.send(event, "请输入最小值、最大值和投掷次数，格式为：/random 最小值 最大值 投掷次数")
-        return
+        min_value = 1
+        max_value = 100
+        throw_count = 1
+    else:
+        # 提取最小值、最大值和投掷次数
+        try:
+            min_value, max_value, throw_count = map(int, param.split())
+        except ValueError:
+            await bot.send(event, "参数格式不正确，请输入整数值")
+            return
 
-    # 提取最小值、最大值和投掷次数
-    try:
-        min_value, max_value, throw_count = map(int, param.split())
-    except ValueError:
-        await bot.send(event, "参数格式不正确，请输入整数值")
-        return
-
+    # 获取插件配置
+    global_config = await Config.get_alone()
 
     # 检查投掷次数是否超过限制
     if throw_count > global_config.random_max_count:
