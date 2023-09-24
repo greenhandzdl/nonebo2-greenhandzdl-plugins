@@ -8,8 +8,8 @@ from nonebot_plugin_saa import MessageFactory, Text
 
 from .config import Config
 
-global_config = get_driver().config
-config = Config.parse_obj(global_config)
+# global_config = get_driver().config
+# config = Config.parse_obj(global_config)
 
 # 定义一个命令处理器，响应用户输入的"about"指令，并且需要@机器人
 about_cmd = on_command("about", rule=to_me(), priority=5)
