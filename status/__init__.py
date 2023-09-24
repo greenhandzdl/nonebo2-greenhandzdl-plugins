@@ -67,7 +67,7 @@ def format_timespan(seconds):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    return f"{days}d {hours}h {minutes}m {seconds}s}"  # 格式化时间间隔
+    return f"{days}d {hours}h {minutes}m {seconds}s"  # 格式化时间间隔
 
 def get_output():
     cat = '''
