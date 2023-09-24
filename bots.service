@@ -1,0 +1,10 @@
+[Unit]
+Description=nonebot daemon service.
+After=network.target
+[Service]
+User=root
+WorkingDirectory=/root/bots
+ExecStart=/root/.local/bin/nb run
+ExecStop=/usr/bin/pkill -9 nb
+[Install]
+WantedBy=multi-user.target
