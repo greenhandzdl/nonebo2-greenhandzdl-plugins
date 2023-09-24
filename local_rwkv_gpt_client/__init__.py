@@ -1,5 +1,5 @@
 import requests
-from requests.exceptions import ConnectionError, MaxRetryError
+from requests.exceptions import ConnectionError
 from nonebot import on_command
 from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
