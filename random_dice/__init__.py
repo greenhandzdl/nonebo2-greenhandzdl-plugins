@@ -4,14 +4,14 @@ from nonebot.adapters import Bot, Event
 from nonebot.rule import to_me
 
 import random
-from nonebot_plugin_saa import Config, on_startup
 
-random_cmd = on_command("random", rule=to_me(), priority=5)
+random_cmd = on_command("random", rule=to_me(), priority=5, aliases={"随机"})
 
 @random_cmd.handle()
 async def handle_random(bot: Bot, event: Event, state: T_State):
     param = event.get_plaintext().strip()
     param = param.replace("/random", "").strip()
+    param = param.replace("/随机", "").strip()
 
     # 判断是否有参数
     if not param:
@@ -26,12 +26,9 @@ async def handle_random(bot: Bot, event: Event, state: T_State):
             await bot.send(event, "参数格式不正确，请输入整数值")
             return
 
-    # 获取插件配置
-    global_config = await Config.get_alone()
-
     # 检查投掷次数是否超过限制
-    if throw_count > global_config.random_max_count:
-        await bot.send(event, f"投掷次数不能超过{global_config.random_max_count}")
+    if throw_count > 10:
+        await bot.send(event, "投掷次数不能超过10")
         return
 
     # 生成随机数
@@ -42,6 +39,3 @@ async def handle_random(bot: Bot, event: Event, state: T_State):
 
     # 发送消息给用户
     await bot.send(event, msg)
-
-    # 结束命令处理
-    await random_cmd.finish()

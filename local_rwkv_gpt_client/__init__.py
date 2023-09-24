@@ -51,10 +51,6 @@ async def handle_gpt(bot: Bot, event: Event, state: T_State):
         # 处理连接错误
         print("连接错误:", e)
         await bot.send(event, message="连接错误，请稍后再试")
-    except MaxRetryError as e:
-        # 处理最大重试错误
-        print("最大重试错误:", e)
-        await bot.send(event, message="最大重试错误，请稍后再试")
     except Exception as e:
         # 处理其他异常
         print("其他异常:", e)
