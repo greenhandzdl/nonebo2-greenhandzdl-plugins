@@ -2,13 +2,14 @@ from nonebot import on_message, get_driver
 from nonebot.adapters import Bot, Event
 from nonebot_plugin_saa import MessageFactory, Text
 from pydantic import BaseModel
+from config import repeatInt, repeatHitInt
 
 class Config(BaseModel):
-    repeatInt: int
-    repeatHitInt: int
+    repeatInt: int = repeatInt
+    repeatHitInt: int = repeatHitInt
 
 global_config = get_driver().config
-config = Config.parse_obj(global_config)
+config = Config()
 
 message_handler = on_message()
 
