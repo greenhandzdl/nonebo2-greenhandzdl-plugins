@@ -1,4 +1,7 @@
-# 导入nonebot2相关模块
+import os
+import subprocess
+import time
+import re
 from nonebot import on_command
 from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
@@ -96,6 +99,13 @@ def get_output():
         )  # 格式化系统信息输出
     
     output = "{}\n{}\n{}".format(cat, yiyan_output, sysinfo_output)  # 将输出内容拼接到一起
+    
+    # 检查hostname是否含有类似于链接的格式，并将.转换为_
+    hostname = sysinfo.get('Host', '')
+    if re.match(r'^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$', hostname):
+        hostname = hostname.replace('.', '_')
+        output = output.replace(sysinfo.get('Host', ''), hostname)
+
     return output  # 返回输出内容
 
 @status_cmd.handle()
