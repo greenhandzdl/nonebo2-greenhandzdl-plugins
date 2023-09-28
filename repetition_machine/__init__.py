@@ -1,6 +1,5 @@
 from nonebot import on_message, get_driver
 from nonebot.adapters import Bot, Event
-from nonebot.adapters.cqhttp import Message
 from nonebot_plugin_saa import MessageFactory, Text
 from pydantic import BaseModel
 
