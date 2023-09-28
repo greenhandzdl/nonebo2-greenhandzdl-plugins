@@ -12,8 +12,8 @@ async def repeat_message(bot: Bot, event: Event):
     repeatInt = 100
     repeatHitInt = 40
 
-    # 将变量存储在 data 函数中
-    bot.config.PLUGINS_CONFIG["repetition_machine"] = {
+    # 将变量存储在 plugin_config 中
+    plugin_config =  {
         "repeatInt": repeatInt,
         "repeatHitInt": repeatHitInt
     }
@@ -22,3 +22,6 @@ async def repeat_message(bot: Bot, event: Event):
         repeat_text = Text(user_input)
         reply_message = MessageFactory.create([repeat_text])
         await bot.send(event, message=reply_message)
+
+    # 存储 plugin_config 到 bot.config
+    bot.config.plugin_config.setdefault("repetition_machine", plugin_config)
