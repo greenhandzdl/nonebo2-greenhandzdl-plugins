@@ -1,13 +1,22 @@
 from nonebot import on_message
 from nonebot.adapters import Bot, Event
 from nonebot_plugin_saa import MessageFactory, Text
-from .config import repeatInt, repeatHitInt
 
 message_handler = on_message()
 
 @message_handler.handle()
 async def repeat_message(bot: Bot, event: Event):
     user_input = event.get_plaintext().strip()
+
+    # 在 __init__ 函数中定义变量
+    repeatInt = 100
+    repeatHitInt = 40
+
+    # 将变量存储在 data 函数中
+    bot.config.PLUGINS_CONFIG["repetition_machine"] = {
+        "repeatInt": repeatInt,
+        "repeatHitInt": repeatHitInt
+    }
 
     if repeatInt >= repeatHitInt:
         repeat_text = Text(user_input)
