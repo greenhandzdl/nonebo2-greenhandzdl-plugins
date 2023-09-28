@@ -1,5 +1,6 @@
 import os
 import subprocess
+import time
 from nonebot import on_command, get_driver
 from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
@@ -26,11 +27,14 @@ async def handle_update(bot: Bot, event: Event, state: T_State):
         commit_output = subprocess.getoutput("git log -1 --pretty=format:'%h - %s (%cr)'")
         msg = MessageFactory(Text(f"插件已更新！\n最新的commit信息：\n{commit_output}"))
         
-        # 重启机器人
+        # 发送消息给用户
+        await msg.send(reply=True, at_sender=True)
+        
+        # 延迟一段时间后重启机器人
+        time.sleep(3)
         restart_bot()
     
     os.chdir(current_dir)
-    await msg.send(reply=True, at_sender=True)
     await update_cmd.finish()
 
 def restart_bot():
