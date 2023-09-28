@@ -19,9 +19,9 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
         return
 
     html_text = markdown.markdown(md_text)
-    #current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    #file_name = f"{current_time}.png"
-    file_name = f"md_generate_cookies.png"
+    current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    file_name = f"{current_time}.png"
+    #file_name = f"md_generate_cookies.png"
     file_path =  os.path.join("./cookie", file_name)
     file_path = os.path.abspath(file_path)
 
