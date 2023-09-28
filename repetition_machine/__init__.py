@@ -22,6 +22,3 @@ async def repeat_message(bot: Bot, event: Event):
         repeat_text = Text(user_input)
         reply_message = MessageFactory.create([repeat_text])
         await bot.send(event, message=reply_message)
-
-    # 存储 plugin_config 到 bot.config
-    bot.config.plugin_config.setdefault("repetition_machine", plugin_config)
