@@ -24,7 +24,7 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     file_path = os.path.abspath("./cookie").join(file_name)
 
     try:
-        imgkit.from_string(html_text, file_path, options={"format": "png"})
+        imgkit.from_string(html_text, file_path)
         with open(file_path, "rb") as f:
             image_data = f.read()
         msg = MessageFactory(Image(image_data))
