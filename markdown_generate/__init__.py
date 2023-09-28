@@ -21,7 +21,7 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     html_text = markdown.markdown(md_text)
     current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     file_name = f"{current_time}.png"
-    file_path = os.path.abspath("./cookie").joinpath(file_name)
+    file_path = os.path.abspath("./cookie").join(file_name)
 
     try:
         imgkit.from_string(html_text, file_path, options={"format": "png"})
