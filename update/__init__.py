@@ -22,6 +22,10 @@ async def handle_update(bot: Bot, event: Event, state: T_State):
     # 判断是否有更新
     if "Already up to date" in output:
         msg = MessageFactory(Text("无更新"))
+
+        # 发送消息给用户
+        await msg.send(reply=True, at_sender=True)
+        
     else:
         # 获取最新的commit信息
         commit_output = subprocess.getoutput("git log -1 --pretty=format:'%h - %s (%cr)'")
