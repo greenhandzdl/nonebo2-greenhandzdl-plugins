@@ -19,6 +19,6 @@ async def repeat_message(bot: Bot, event: Event):
     }
 
     if repeatInt >= repeatHitInt:
-        repeat_text = Text(user_input)
-        reply_message = MessageFactory.create([repeat_text])
+        repeat_text = Text(f"${user_input}")
+        reply_message = MessageFactory(repeat_text)
         await bot.send(event, message=reply_message)
