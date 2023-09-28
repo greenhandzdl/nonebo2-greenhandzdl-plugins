@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Extra
+# 导入nonebot2相关模块
+from pydantic import BaseSettings
 
 
 class Config(BaseModel, extra=Extra.ignore):
