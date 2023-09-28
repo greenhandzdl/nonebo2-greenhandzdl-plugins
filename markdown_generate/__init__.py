@@ -22,7 +22,8 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     #current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     #file_name = f"{current_time}.png"
     file_name = f"md_generate_cookies.png"
-    file_path = os.path.abspath("./cookie").join(file_name)
+    file_path =  os.path.join("./cookie", file_name)
+    file_path = os.path.abspath(file_path)
 
     try:
         imgkit.from_string(html_text, file_path)
@@ -33,7 +34,5 @@ async def handle_md_generate(bot: Bot, event: Event, state: T_State):
     except Exception as e:
         await bot.send(event, f"生成图片时出现错误：{e}")
         return
-
-
 
     await md_generate_cmd.finish()
