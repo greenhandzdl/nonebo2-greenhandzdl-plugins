@@ -1,5 +1,5 @@
 import requests
-from requests.exceptions import ConnectionError
+from requests.exceptions import RequestException
 from nonebot import on_command
 from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
@@ -47,13 +47,12 @@ async def handle_gpt(bot: Bot, event: Event, state: T_State):
         # 发送回复消息
         await msg.send(reply=True, at_sender=True)
 
-    except ConnectionError as e:
-        # 处理连接错误
-        print("连接错误:", e)
-        await bot.send(event, message="连接错误，请稍后再试")
+    except RequestException as e:
+        # 处理请求异常
+        await bot.send(event, message="请求异常，请稍后再试")
+
     except Exception as e:
         # 处理其他异常
-        print("其他异常:", e)
         await bot.send(event, message="发生了一些错误，请稍后再试")
 
     # 结束命令处理
