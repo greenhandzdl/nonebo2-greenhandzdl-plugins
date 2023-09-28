@@ -2,7 +2,7 @@
 from pydantic import BaseSettings
 
 
-class Config(BaseModel, extra=Extra.ignore):
+class Config(BaseSettings):
     """Plugin Config Here"""
     repeatInt : int = 100
     repeatHitInt : int = 40
